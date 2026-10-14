@@ -1,0 +1,185 @@
+REPODETECTIVE — INVESTIGATION TEST INPUTS
+========================================
+
+PURPOSE
+-------
+This file contains the user-entered values for a controlled RepoDetective
+investigation using the AI-SFI-Checkout-Testbed repository. Copy each section
+into the matching field in RepoDetective.
+
+IMPORTANT EVIDENCE NOTE
+----------------------
+The repository source code documents the FLASHSALE defect. The application-log,
+stack-trace, and test-output sections below are SIMULATED TEST INPUTS based on
+source inspection; they were not captured from an actual application/test run.
+They are labelled this way so they are not mistaken for genuine runtime evidence.
+
+1. REPOSITORY TO ANALYZE
+------------------------
+GitHub URL:
+https://github.com/Amogh1788/AI-SFI-Checkout-Testbed
+
+2. INVESTIGATION CASE
+---------------------
+Title:
+FLASHSALE Checkout Failure
+
+Description:
+Checkout processing fails when the FLASHSALE discount code is applied.
+
+Reproduction scenario:
+1. Create a checkout request for customer cust_123.
+2. Set the subtotal to 100.00.
+3. Set the discount code to FLASHSALE.
+4. Submit the checkout request.
+
+Expected behavior:
+The discount is processed into a valid payment amount, a payment request is
+created, and checkout returns a successful response.
+
+Observed behavior described by the source:
+CheckoutService.applyDiscount() returns null for the FLASHSALE code. The null
+amount is passed to PaymentRequestBuilder.setAmount(), which throws a
+NullPointerException before the checkout can return a successful response.
+
+Potentially affected files:
+- src/CheckoutService.java
+- src/PaymentRequestBuilder.java
+- tests/CheckoutServiceTest.java
+
+3. EVIDENCE ITEM — BUG REPORT
+-----------------------------
+Evidence type:
+Bug Report
+
+Evidence title:
+FLASHSALE discount causes checkout failure
+
+Evidence content:
+BUG REPORT: FLASHSALE CHECKOUT FAILURE
+
+Summary:
+Checkout processing fails when the FLASHSALE promotion is applied.
+
+Steps to reproduce:
+1. Create a checkout request for customer cust_123.
+2. Set the subtotal to 100.00.
+3. Apply the FLASHSALE discount code.
+4. Submit the checkout request.
+
+Expected result:
+The discount is calculated correctly, the payment request contains a valid
+amount, and checkout returns a successful response.
+
+Observed behavior described by the repository source:
+The FLASHSALE branch in CheckoutService.applyDiscount() returns null. That
+null value is passed to PaymentRequestBuilder.setAmount(), which throws a
+NullPointerException.
+
+Relevant files:
+- src/CheckoutService.java
+- src/PaymentRequestBuilder.java
+- tests/CheckoutServiceTest.java
+
+This report is a controlled test scenario derived from source inspection, not
+a report from a real customer incident.
+
+4. EVIDENCE ITEM — APPLICATION LOGS
+-----------------------------------
+Evidence type:
+Application Log
+
+Evidence title:
+Simulated FLASHSALE checkout error log
+
+Evidence content:
+SIMULATED APPLICATION LOG — NOT CAPTURED FROM A RUNNING APPLICATION
+
+Timestamp: 2026-10-14T12:00:00Z
+Level: ERROR
+Component: CheckoutService
+Customer ID: cust_123
+Subtotal: 100.00
+Discount code: FLASHSALE
+
+Event:
+Checkout processing failed while constructing the payment request.
+
+Exception:
+java.lang.NullPointerException: paymentTotal cannot be null for payment processing
+
+Source-based failure path:
+CheckoutService.processCheckout()
+  -> CheckoutService.applyDiscount("FLASHSALE", subtotal)
+  -> returns null
+  -> PaymentRequestBuilder.setAmount(null)
+
+Expected follow-up:
+Inspect the FLASHSALE discount branch and validate the payment amount before
+building the payment request.
+
+5. EVIDENCE ITEM — STACK TRACE
+------------------------------
+Evidence type:
+Stack Trace
+
+Evidence title:
+Simulated FLASHSALE NullPointerException stack trace
+
+Evidence content:
+SIMULATED STACK TRACE — INFERRED FROM SOURCE, NOT CAPTURED AT RUNTIME
+
+java.lang.NullPointerException: paymentTotal cannot be null for payment processing
+    at com.example.checkout.PaymentRequestBuilder.setAmount(PaymentRequestBuilder.java)
+    at com.example.checkout.CheckoutService.processCheckout(CheckoutService.java)
+    at com.example.checkout.CheckoutController.handleCheckout(CheckoutController.java)
+    at com.example.checkout.CheckoutServiceTest.testProcessCheckoutWithFlashSaleDiscount(CheckoutServiceTest.java)
+
+Source-based explanation:
+CheckoutService.applyDiscount("FLASHSALE", subtotal) returns null. The resulting
+null value reaches PaymentRequestBuilder.setAmount(), which throws the exception.
+
+Note:
+This stack trace is a test fixture based on the code path. It must not be treated
+as a genuine runtime stack trace.
+
+6. EVIDENCE ITEM — TEST OUTPUT
+------------------------------
+Evidence type:
+Test Output
+
+Evidence title:
+Simulated FLASHSALE checkout regression test result
+
+Evidence content:
+SIMULATED TEST RESULT — TEST HAS NOT BEEN EXECUTED TO PRODUCE THIS OUTPUT
+
+Test class:
+CheckoutServiceTest
+
+Test method:
+testProcessCheckoutWithFlashSaleDiscount
+
+Input:
+customerId = cust_123
+subtotal = 100.00
+discountCode = FLASHSALE
+
+Expected result:
+A non-null CheckoutResponse with status SUCCESS.
+
+Result predicted from source inspection:
+The checkout path throws a NullPointerException before returning the expected
+successful response because the FLASHSALE discount branch returns null and the
+payment request builder rejects a null amount.
+
+Relevant files:
+- src/CheckoutService.java
+- src/PaymentRequestBuilder.java
+- tests/CheckoutServiceTest.java
+
+This is not an actual test runner transcript. Replace it with the unedited,
+real test output after the project is made runnable and the test is executed.
+
+END OF TEST INPUTS
+==================
